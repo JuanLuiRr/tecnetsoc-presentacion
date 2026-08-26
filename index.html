@@ -885,6 +885,26 @@ const LIST_TEX=uploadA(canvasOf(512,384,(x)=>{
     x.fillStyle="#22262e";x.font="25px Georgia,serif";x.fillText(it,84,yy);});
   x.fillStyle="#8a7d5a";x.font="italic 18px Georgia,serif";x.fillText("Autorizado por ti · hoy",26,360);
 }));
+const APPROVE2_TEX=uploadA(canvasOf(1024,768,(x)=>{
+  x.textBaseline="alphabetic";x.textAlign="left";
+  x.fillStyle="#ffffff";x.fillRect(0,0,1024,768);
+  x.fillStyle="#0e2a52";x.fillRect(0,0,1024,120);
+  x.fillStyle="#67e8f9";x.font="bold 46px 'Segoe UI'";x.fillText("Neo te propone",44,78);
+  x.fillStyle="#12305a";x.font="bold 66px 'Segoe UI'";x.fillText("¿Hago un respaldo",48,250);x.fillText("ahora mismo?",48,330);
+  x.fillStyle="#5a6b86";x.font="34px 'Segoe UI'";x.fillText("Queda pendiente de tu aprobación",48,398);
+  x.fillStyle="#2f9e54";x.fillRect(60,470,400,150);
+  x.fillStyle="#fff";x.font="bold 58px 'Segoe UI'";x.textAlign="center";x.fillText("Aprobar",260,565);
+  x.strokeStyle="#c23b34";x.lineWidth=6;x.strokeRect(560,470,400,150);
+  x.fillStyle="#c23b34";x.fillText("Rechazar",760,565);x.textAlign="left";
+}));
+const ORDER_TEX=uploadA(canvasOf(1024,512,(x)=>{
+  x.clearRect(0,0,1024,512);x.textAlign="left";x.textBaseline="alphabetic";
+  x.fillStyle="#ffffff";roundRect(x,26,20,972,344,48);x.fill();
+  x.lineWidth=6;x.strokeStyle="#67e8f9";roundRect(x,26,20,972,344,48);x.stroke();
+  x.fillStyle="#ffffff";x.beginPath();x.moveTo(210,352);x.lineTo(372,352);x.lineTo(176,478);x.closePath();x.fill();
+  x.fillStyle="#16324f";x.font="bold 50px 'Segoe UI',sans-serif";wrapText(x,"Guardia: haz el respaldo del servidor ya.",60,120,880,62);
+  x.fillStyle="#2f9e54";x.font="italic 33px 'Segoe UI'";x.fillText("— Neo · ya lo aprobaste",60,332);
+}));
 const Q_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,W,H);
   x.fillStyle="#f6a13a";x.beginPath();x.arc(128,128,112,0,7);x.fill();
@@ -1575,34 +1595,43 @@ const VIG=[
 
 { iso:true, kick:"Reportes · Neo actúa",
   ttl:"Neo no solo cuenta: también actúa",
-  points:["Hasta ahora, Neo te informaba","También puede actuar por ti","Aislar, bloquear, restaurar, abrir ticket"],
-  notes:`<p><b>(Nuevo)</b> Hasta aquí, Neo te <b>cuenta</b> lo que pasa. Pero Neo <b>también puede hacer</b>: aislar un equipo, bloquear un acceso, restaurar una copia, abrir un ticket. No solo informa — <span class="cue">actúa</span>.</p>`,
-  cam:{eye:[0,3.1,10.6],tgt:[0,2.7,-.2],fov:.95}, noGuard:true,
-  build(t){ const yb=2.5+Math.sin(t*1.6)*.09;
-    neoBall(-2.6,yb,2.7,1.2,0.4);
-    panel3d(2.7,3.2,-.2,2.6,1.95,ACT_TEX,true);
-    beam([-2.6,yb+.1,2.8],[2.7,3.2,-.1]); } },
+  points:["Neo no solo te informa","También se pone el casco y actúa","Manos a la obra, por ti"],
+  notes:`<p><b>(Nuevo)</b> Hasta aquí, Neo te <b>cuenta</b> lo que pasa. Pero Neo <b>también hace</b>: se pone el casco, agarra la pala y se arremanga. No solo informa — <span class="cue">actúa</span>.</p>`,
+  cam:{eye:[.2,3.2,10.9],tgt:[.4,2.5,.3],fov:.95}, noGuard:true,
+  build(t){ const nx=-1.1,nz=2.7,yb=2.35+Math.sin(t*1.6)*.07;
+    const bc=[.66,.30,.22],be=[.12,.04,.03];
+    for(let r=0;r<3;r++)for(let c=0;c<2;c++){ if(r===2&&c===1)continue;
+      P({pos:[3.5+c*1.02,.42+r*.44,-.7],size:[.96,.4,.56],color:bc,emis:be}); }
+    P({pos:[3.8,.66,1.5],size:[1.05,1.25,.74],color:[.80,.78,.68],emis:[.05,.05,.04],rot:[0,-.35,.05]});
+    P({pos:[3.7,1.28,1.56],size:[.64,.2,.36],color:[.5,.48,.4],rot:[0,-.35,.05]});
+    neoBall(nx,yb,nz,1.3,0.12);
+    P({pos:[nx,yb+.64,nz],size:[1.38,.9,1.38],color:[.97,.73,.10],emis:[.42,.29,.03],mesh:SPH});
+    P({pos:[nx,yb+.4,nz+.05],size:[1.9,.16,1.65],color:[.9,.66,.08],emis:[.34,.24,.03]});
+    P({pos:[nx,yb+.42,nz+.85],size:[1.0,.14,.5],color:[.9,.66,.08],emis:[.34,.24,.03]});
+    P({pos:[nx,yb+1.0,nz],size:[.22,.34,1.3],color:[.85,.62,.07],emis:[.3,.22,.03]});
+    P({pos:[1.05,1.65,2.5],size:[.12,2.7,.12],color:[.55,.36,.2],rot:[0,0,-.3]});
+    P({pos:[1.83,.4,2.5],size:[.58,.74,.1],color:[.72,.74,.8],emis:[.1,.1,.11],rot:[0,0,-.3]}); } },
 
 { iso:true, kick:"Reportes · con tu permiso",
   ttl:"Pero nunca sin tu permiso",
   points:["Te propone la acción y la deja ahí","Espera a que un humano diga que sí","Sin tu aprobación, no corre. Punto."],
-  notes:`<p>Y lo que <b>no</b> puede es hacerlo sin preguntarte. Te lo <b>propone</b>, te lo deja ahí, y ahí se queda hasta que <b>alguien de carne y hueso</b> aprieta el sí. <span class="cue">Sin aprobación, no corre. Punto.</span></p>`,
-  cam:{eye:[.6,3.1,10.2],tgt:[.2,2.6,-.1],fov:.95}, noGuard:true,
-  build(t){ const yb=2.5+Math.sin(t*1.6)*.09;
-    neoBall(-2.9,yb,2.7,1.12,0.45);
-    panel3d(1.7,3.2,0,2.7,2.0,APPROVE_TEX,true);
-    poseOwner(4.8,3.2,-1.4,t); } },
+  notes:`<p>Y lo que <b>no</b> puede es hacerlo sin preguntarte. Por ejemplo: <b>"¿hago un respaldo ahora?"</b> — te lo <b>propone</b>, lo deja ahí, y ahí se queda hasta que <b>alguien de carne y hueso</b> aprieta el sí. <span class="cue">Sin aprobación, no corre. Punto.</span></p>`,
+  cam:{eye:[.5,3.0,10.0],tgt:[.4,2.6,-.1],fov:.95}, noGuard:true,
+  build(t){ const yb=2.6+Math.sin(t*1.6)*.08,cx=1.9,cy=3.0,cz=0,w=3.0,h=2.25;
+    neoBall(-2.9,yb,2.7,1.12,0.5);
+    P({pos:[cx,cy,cz-.05],size:[w+.24,h+.24,.06],color:[.86,.91,.98],emis:[.16,.2,.26]});
+    P({pos:[cx,cy,cz],size:[w,h,.04],tex:APPROVE2_TEX,color:[1,1,1],unlit:true});
+    poseOwner(5.0,3.2,-1.5,t); } },
 
 { iso:true, kick:"Reportes · Neo y el guardia",
   ttl:"Tú apruebas, Neo se encarga",
-  points:["Le pasa la orden al guardia por ti","No buscas botones en el portal","El guardia actúa solo; Neo, contigo"],
-  notes:`<p>Esa es la diferencia con el guardia: el <b>guardia actúa solo</b>, porque para eso está. <b>Neo actúa contigo</b> — tú apruebas y él se encarga, le pasa la orden al guardia por ti. <span class="cue">No andas buscando dónde está cada botón en el portal</span>: se lo pides, lo apruebas, y se hace.</p>`,
-  cam:{eye:[0,3.5,11.8],tgt:[0,2.3,.4],fov:.98},
-  build(t){ const yb=2.3+Math.sin(t*1.6)*.09;
-    neoBall(-3.0,yb,2.8,1.05,0.5);
-    panel3d(0.1,2.9,1.0,1.7,2.15,LIST_TEX,true);
-    poseGuard(3.2,3.4,1.5,t);
-    beam([-3.0,yb,2.9],[0.1,2.9,1.1]); } },
+  points:["Neo le dice al guardia qué hacer","Tú ya lo aprobaste, no buscas botones","El guardia actúa solo; Neo, contigo"],
+  notes:`<p>¿La diferencia con el guardia? El <b>guardia actúa solo</b>, porque para eso está. <b>Neo actúa contigo</b>: una vez que <b>tú apruebas</b>, Neo <b>le dice al guardia</b> qué hacer y él lo hace. <span class="cue">Tú no andas buscando dónde está cada botón en el portal</span> — se lo pides a Neo y listo.</p>`,
+  cam:{eye:[0,3.3,11.6],tgt:[.2,2.4,.3],fov:.98},
+  build(t){ const yb=2.3+Math.sin(t*1.6)*.08;
+    neoBall(-3.0,yb,2.8,1.1,1.15);
+    speechBubble(-.55,4.25,2.5,3.7,1.85,ORDER_TEX);
+    poseGuard(3.2,3.4,1.55,t); } },
 
 { sec:"Reportes", full:true, portal:true, kick:"En vivo", ttl:"Ahora, veámoslo en el portal",
   points:["Cambiamos a la plataforma","Neo y los reportes, en vivo","(demo en pantalla)"],
