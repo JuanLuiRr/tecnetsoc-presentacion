@@ -849,6 +849,42 @@ const GLOW_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   g.addColorStop(0,"rgba(150,175,235,.62)");g.addColorStop(.55,"rgba(120,150,220,.18)");g.addColorStop(1,"rgba(120,150,220,0)");
   x.fillStyle=g;x.fillRect(0,0,256,256);
 }));
+const ACT_TEX=uploadA(canvasOf(512,384,(x)=>{
+  x.textBaseline="alphabetic";
+  x.fillStyle="#0e1b34";x.fillRect(0,0,512,384);
+  x.fillStyle="#67e8f9";x.fillRect(0,0,512,60);
+  x.fillStyle="#04121f";x.font="bold 27px 'Segoe UI'";x.fillText("Neo puede hacer",22,40);
+  var items=["Aislar el equipo afectado","Bloquear un acceso","Restaurar una copia","Abrir un ticket"];
+  items.forEach(function(it,i){var yy=118+i*62;
+    x.fillStyle="#2f9e54";x.beginPath();x.arc(40,yy-8,11,0,7);x.fill();
+    x.fillStyle="#fff";x.font="bold 20px 'Segoe UI'";x.fillText("+",34,yy-1);
+    x.fillStyle="#eaf4ff";x.font="24px 'Segoe UI'";x.fillText(it,66,yy);});
+}));
+const APPROVE_TEX=uploadA(canvasOf(512,384,(x)=>{
+  x.textBaseline="alphabetic";x.textAlign="left";
+  x.fillStyle="#f4f7fc";x.fillRect(0,0,512,384);
+  x.fillStyle="#0e2a52";x.fillRect(0,0,512,60);
+  x.fillStyle="#67e8f9";x.font="bold 24px 'Segoe UI'";x.fillText("Neo te propone",22,39);
+  x.fillStyle="#12305a";x.font="bold 31px 'Segoe UI'";
+  wrapText(x,"¿Aíslo el equipo afectado?",26,120,460,40);
+  x.fillStyle="#5a6b86";x.font="20px 'Segoe UI'";x.fillText("Queda pendiente de tu aprobación",26,168);
+  x.fillStyle="#2f9e54";x.fillRect(38,225,196,86);
+  x.fillStyle="#fff";x.font="bold 30px 'Segoe UI'";x.textAlign="center";x.fillText("Aprobar",136,280);
+  x.strokeStyle="#c23b34";x.lineWidth=3;x.strokeRect(280,225,196,86);
+  x.fillStyle="#c23b34";x.fillText("Rechazar",378,280);x.textAlign="left";
+}));
+const LIST_TEX=uploadA(canvasOf(512,384,(x)=>{
+  x.textBaseline="alphabetic";x.textAlign="left";
+  x.fillStyle="#fbf7ea";x.fillRect(0,0,512,384);
+  x.fillStyle="#14181f";x.font="bold 27px Georgia,serif";x.fillText("Orden aprobada",26,50);
+  x.strokeStyle="#c9c2b0";x.lineWidth=2;x.beginPath();x.moveTo(26,64);x.lineTo(486,64);x.stroke();
+  var items=["Aislar PC-04","Bloquear la IP","Restaurar la copia"];
+  items.forEach(function(it,i){var yy=124+i*70;
+    x.strokeStyle="#2f7d46";x.lineWidth=4;x.strokeRect(30,yy-28,36,36);
+    x.beginPath();x.moveTo(37,yy-11);x.lineTo(47,yy-1);x.lineTo(62,yy-24);x.stroke();
+    x.fillStyle="#22262e";x.font="25px Georgia,serif";x.fillText(it,84,yy);});
+  x.fillStyle="#8a7d5a";x.font="italic 18px Georgia,serif";x.fillText("Autorizado por ti · hoy",26,360);
+}));
 const Q_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,W,H);
   x.fillStyle="#f6a13a";x.beginPath();x.arc(128,128,112,0,7);x.fill();
@@ -1537,6 +1573,37 @@ const VIG=[
     beam([nx,yb+.2,nz],[-3.6,2.0,-.6]);
     warnX(1.7,3.1,3.2); } },
 
+{ iso:true, kick:"Reportes · Neo actúa",
+  ttl:"Neo no solo cuenta: también actúa",
+  points:["Hasta ahora, Neo te informaba","También puede actuar por ti","Aislar, bloquear, restaurar, abrir ticket"],
+  notes:`<p><b>(Nuevo)</b> Hasta aquí, Neo te <b>cuenta</b> lo que pasa. Pero Neo <b>también puede hacer</b>: aislar un equipo, bloquear un acceso, restaurar una copia, abrir un ticket. No solo informa — <span class="cue">actúa</span>.</p>`,
+  cam:{eye:[0,3.1,10.6],tgt:[0,2.7,-.2],fov:.95}, noGuard:true,
+  build(t){ const yb=2.5+Math.sin(t*1.6)*.09;
+    neoBall(-2.6,yb,2.7,1.2,0.4);
+    panel3d(2.7,3.2,-.2,2.6,1.95,ACT_TEX,true);
+    beam([-2.6,yb+.1,2.8],[2.7,3.2,-.1]); } },
+
+{ iso:true, kick:"Reportes · con tu permiso",
+  ttl:"Pero nunca sin tu permiso",
+  points:["Te propone la acción y la deja ahí","Espera a que un humano diga que sí","Sin tu aprobación, no corre. Punto."],
+  notes:`<p>Y lo que <b>no</b> puede es hacerlo sin preguntarte. Te lo <b>propone</b>, te lo deja ahí, y ahí se queda hasta que <b>alguien de carne y hueso</b> aprieta el sí. <span class="cue">Sin aprobación, no corre. Punto.</span></p>`,
+  cam:{eye:[.6,3.1,10.2],tgt:[.2,2.6,-.1],fov:.95}, noGuard:true,
+  build(t){ const yb=2.5+Math.sin(t*1.6)*.09;
+    neoBall(-2.9,yb,2.7,1.12,0.45);
+    panel3d(1.7,3.2,0,2.7,2.0,APPROVE_TEX,true);
+    poseOwner(4.8,3.2,-1.4,t); } },
+
+{ iso:true, kick:"Reportes · Neo y el guardia",
+  ttl:"Tú apruebas, Neo se encarga",
+  points:["Le pasa la orden al guardia por ti","No buscas botones en el portal","El guardia actúa solo; Neo, contigo"],
+  notes:`<p>Esa es la diferencia con el guardia: el <b>guardia actúa solo</b>, porque para eso está. <b>Neo actúa contigo</b> — tú apruebas y él se encarga, le pasa la orden al guardia por ti. <span class="cue">No andas buscando dónde está cada botón en el portal</span>: se lo pides, lo apruebas, y se hace.</p>`,
+  cam:{eye:[0,3.5,11.8],tgt:[0,2.3,.4],fov:.98},
+  build(t){ const yb=2.3+Math.sin(t*1.6)*.09;
+    neoBall(-3.0,yb,2.8,1.05,0.5);
+    panel3d(0.1,2.9,1.0,1.7,2.15,LIST_TEX,true);
+    poseGuard(3.2,3.4,1.5,t);
+    beam([-3.0,yb,2.9],[0.1,2.9,1.1]); } },
+
 { sec:"Reportes", full:true, portal:true, kick:"En vivo", ttl:"Ahora, veámoslo en el portal",
   points:["Cambiamos a la plataforma","Neo y los reportes, en vivo","(demo en pantalla)"],
   notes:`<p><b>(Cierre / Portal)</b> Cambia al portal y muestra Reportes y Neo en vivo. Con esto cerramos la presentación.</p>`,
@@ -1655,7 +1722,7 @@ const NOTES=[
  `<p>Y se lo puedes <b>preguntar en simple</b>. <span class="cue">(clic en las preguntas)</span> Y si no entiendes una pantalla, le dices <b>"explícame esta pantalla"</b> y al momento te dice qué estás viendo, con tus datos. Contesta claro, sin tecnicismos. Si te sirvió, <b>👍</b>; si no, <b>👎</b>: con tu voto, Neo mejora.</p>`,
  `<p>Lo más importante: <b>Neo no inventa</b>. No adivina ni "cree": cada respuesta sale de <b>tu propio entorno</b> — tu bitácora, tu bóveda, tus equipos. <span class="cue">Evidencia, no suposiciones.</span> Si algo no lo puede ver, te lo dice; no se lo saca de la manga.</p>`,
  `<p>Y también <b>seguridad</b>: a Neo <b>no lo engañas</b>. <span class="cue">(clic en cada intento)</span> ¿Le pides datos de <b>otro cliente</b>? No. ¿Las <b>contraseñas</b>? No. ¿Que <b>ignore sus reglas</b>? Tampoco. Solo trabaja con <b>tu</b> entorno y nunca suelta información confidencial — por más que se lo pidas o cómo se lo pidas.</p>`,
- `<p>¿Por qué? Porque cada cliente está <b>aislado</b>. Neo solo entra a <b>tu</b> casa; la del vecino ni la ve. <span class="cue">Tus datos no se cruzan con los de nadie.</span> Esa pared no se cruza — ni hacia ti, ni hacia afuera.</p><p><b>(Cierre)</b> "Reportes no es papeleo: es tu entorno, contado por alguien que lo ve todo el tiempo, sin inventar, que cuida y aísla tus datos, y que además te avisa. Eso es visibilidad de verdad."</p>`,
+ `<p>¿Por qué? Porque cada cliente está <b>aislado</b>. Neo solo entra a <b>tu</b> casa; la del vecino ni la ve. <span class="cue">Tus datos no se cruzan con los de nadie.</span> Esa pared no se cruza — ni hacia ti, ni hacia afuera.</p><p><b>(Cierre)</b> "Reportes no es papeleo: es tu entorno, contado por alguien que lo ve todo el tiempo, sin inventar, que cuida y aísla tus datos, y que además te avisa. Eso es visibilidad de verdad."</p><p><b>(Y hay más)</b> Y no solo la cuenta: como veremos, Neo también <b>actúa</b> por ti — siempre con tu permiso.</p>`,
 ];
 function paint(){
   const V=VIG[cur];
