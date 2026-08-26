@@ -807,6 +807,43 @@ const PORTAL_TEX=uploadA(canvasOf(512,512,(x,W,H)=>{
   x.fillStyle="#2a3a5a";[0,1,2,3].forEach(i=>x.fillRect(178,306+i*40,282,18));
 }));
 /* signo de interrogación flotante */
+const NOCHE_TEX=uploadA(canvasOf(512,680,(x)=>{
+  x.textAlign="left";x.textBaseline="alphabetic";
+  x.fillStyle="#ffffff";x.fillRect(0,0,512,680);
+  x.font="bold 26px 'Segoe UI',sans-serif";
+  x.fillStyle="#1a1a22";x.fillText("Tecnet",30,48);
+  var tw=x.measureText("Tecnet").width;
+  x.fillStyle="#0c7570";x.fillText("SOC",30+tw,48);
+  x.textAlign="right";x.fillStyle="#6e6e80";x.font="bold 20px 'Segoe UI'";x.fillText("Martes · 7:30 a.m.",482,46);x.textAlign="left";
+  x.strokeStyle="#1a1a22";x.lineWidth=3;x.beginPath();x.moveTo(30,64);x.lineTo(482,64);x.stroke();
+  x.fillStyle="#1a1a22";x.font="bold 38px Georgia,serif";
+  x.fillText("Lo que pasó",30,124);x.fillText("en tu casa anoche",30,168);
+  x.save();x.translate(398,128);x.rotate(-.15);
+  x.fillStyle="rgba(255,255,255,.95)";x.fillRect(-74,-32,148,60);
+  x.strokeStyle="#bc3227";x.lineWidth=5;x.strokeRect(-74,-32,148,60);
+  x.fillStyle="#bc3227";x.textAlign="center";x.font="bold 24px 'Segoe UI'";x.fillText("PASÓ ALGO",0,-2);
+  x.font="bold 15px 'Segoe UI'";x.fillText("ANOCHE",0,20);x.textAlign="left";x.restore();
+  var pts=[
+    ["A QUÉ HORA ENTRÓ","12:40 a. m., por el costado, con una llave que andaba por ahí.",false],
+    ["QUÉ SE DETUVO","El guardia lo sacó a las 3:04. Dejó dos cuartos con candado.",false],
+    ["QUÉ SE RECUPERÓ","Lo encerrado ya está de vuelta: se usó la copia del lunes.",false],
+    ["QUÉ NECESITA TU DECISIÓN","La llave que usó todavía sirve. Hay que cambiarla hoy.",true]
+  ];
+  var yy=250;
+  pts.forEach(function(pp){
+    x.fillStyle=pp[2]?"#bc3227":"#1a1a22";x.beginPath();x.arc(40,yy-7,7,0,7);x.fill();
+    x.fillStyle=pp[2]?"#bc3227":"#8a8a99";x.font="bold 17px 'Segoe UI'";x.fillText(pp[0],62,yy);
+    x.fillStyle="#1a1a22";x.font="23px Georgia,serif";
+    wrapText(x,pp[1],62,yy+34,410,30);
+    yy+=104;
+  });
+  x.strokeStyle="#e4e5ec";x.lineWidth=2;x.beginPath();x.moveTo(30,650);x.lineTo(482,650);x.stroke();
+  x.fillStyle="#8a8a99";x.font="italic 17px Georgia,serif";x.fillText("Todo quedó archivado, con las pruebas.",30,674);
+}));
+const RING_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
+  x.clearRect(0,0,256,256);
+  x.strokeStyle="#ffb020";x.lineWidth=26;x.beginPath();x.arc(128,128,98,0,7);x.stroke();
+}));
 const Q_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,W,H);
   x.fillStyle="#f6a13a";x.beginPath();x.arc(128,128,112,0,7);x.fill();
@@ -1338,6 +1375,20 @@ const VIG=[
   cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
   build(t){} },
 
+{ iso:true, kick:"Reportes · a fondo",
+  ttl:"¿Quién falta en esta historia?",
+  points:["El elenco: el ladrón, el guardia, Neo…","…la bóveda, las dos casas, el temblor","Falta quien lo ve todo y te lo cuenta"],
+  notes:`<p><b>(Puente)</b> Antes de seguir, recordemos a los personajes de esta historia: el <b>ladrón</b>, el <b>guardia</b>, <b>Neo</b>, la <b>bóveda</b>, las <b>dos casas</b>, el <b>temblor</b>. <span class="cue">¿Quién falta?</span> Falta <b>quien lo ve todo y te lo cuenta</b> — para que nada pase sin que tú lo sepas. Eso son los <b>reportes</b>.</p>`,
+  cam:{eye:[0,2.6,9.5],tgt:[0,1.55,0],fov:.85}, noGuard:true,
+  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.05,.06,.12];
+    P({pos:[0,1.35+by,0],size:[1.15,1.5,.62],color:dark,unlit:true});
+    P({pos:[-.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,.16]});
+    P({pos:[.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,-.16]});
+    P({pos:[-.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[0,2.52+by,-.05],size:[.72,.72,.55],color:dark,mesh:SPH,unlit:true});
+    qmark(0,2.52+by,.42); } },
+
 { iso:true, kick:"Reportes · el punto de partida",
   ttl:"¿Cómo me entero de todo lo que pasa en mis casas?",
   cam:{eye:[0,5.6,21.5],tgt:[0,2.6,-2],fov:.98},
@@ -1373,6 +1424,13 @@ const VIG=[
       noteCard(-4.8+q*4.3, 2.8-q*1.15+fl*(1-q), 3.6-q*1.6, [0,-.5+q*.42,.12]); }
     poseEscribano(-4.9,2.0,-1.15,t); } },
 
+{ iso:true, kick:"Reportes · anoche",
+  ttl:"Lo que pasó en tu casa anoche",
+  points:["A qué hora entró y por dónde","Qué se detuvo y qué se recuperó","Y lo único que necesita tu decisión"],
+  notes:`<p><b>(Ejemplo real)</b> Así se ve un informe cuando <b>algo sí pasó</b>. En una sola hoja: <b>a qué hora</b> entró y por dónde, <b>qué se detuvo</b>, <b>qué se recuperó</b> — y, resaltado en rojo, <b>lo único que necesita tu decisión</b> (esa llave hay que cambiarla hoy). <span class="cue">Claro, con pruebas y sin tecnicismos.</span></p>`,
+  cam:{eye:[2.2,2.9,8.6],tgt:[.1,2.0,0],fov:.82}, noGuard:true,
+  build(t){ reportDoc(0,0,NOCHE_TEX,1.4); } },
+
 { iso:true, kick:"Reportes · a la medida",
   ttl:"Elige el informe que necesitas",
   kind:"report",
@@ -1380,13 +1438,24 @@ const VIG=[
   noGuard:true,
   build(t){ reportDoc(0,0,REPTX[RSEL.sel],1.24); } },
 
-{ iso:true, kick:"Reportes · cada mañana",
-  ttl:"Cada mañana, tu resumen",
-  cam:{eye:[5.4,3.4,9.8],tgt:[-.2,1.35,2.0],fov:.95},
-  build(t){ grassPlot(-0.5,1.5,12,9);
-    house(-1,0,{doorOpen:0});
-    newspaper(-1.1,3.7,NP_BRIEF);
-    poseGuard(2.7,4.2,0.7,t); } },
+{ iso:true, kick:"Reportes · sin saturar",
+  ttl:"Si todo es alarma, nada es alarma",
+  points:["Reporte tras reporte, dejas de leerlos","Como el coche cuya alarma suena sin parar","Cuando de verdad importa, ya nadie mira"],
+  notes:`<p><b>(La analogía)</b> Piensa en la <b>alarma de un coche</b>: si suena y suena por todo, el dueño deja de voltear — y el día que <b>de verdad</b> se lo están robando, ya nadie hace caso. Con los reportes pasa igual: <span class="cue">si te llegan a diario "por llegar", dejas de leerlos</span>. Por eso no te saturamos: te contamos <b>lo que importa, cuando importa</b> — y para lo demás, está <b>Neo</b>.</p>`,
+  cam:{eye:[7.6,4.6,12.4],tgt:[-.2,1.4,0],fov:.82}, noGuard:true,
+  build(t){ const cx=0,cz=0,body=[.80,.16,.17],bodyE=[.2,.02,.02];
+    [[-1.15,.86],[1.15,.86],[-1.15,-.86],[1.15,-.86]].forEach(w=>P({pos:[cx+w[0],.44,cz+w[1]],size:[.82,.82,.56],color:[.07,.07,.09],mesh:SPH}));
+    P({pos:[cx,.8,cz],size:[3.5,.74,1.62],color:body,emis:bodyE});
+    P({pos:[cx-.2,1.46,cz],size:[1.95,.74,1.42],color:body,emis:bodyE});
+    P({pos:[cx-.2,1.48,cz+.73],size:[1.72,.52,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
+    P({pos:[cx-.2,1.48,cz-.73],size:[1.72,.52,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
+    P({pos:[cx+1.78,.84,cz+.56],size:[.12,.3,.34],color:[1,1,.85],emis:[.7,.65,.4]});
+    P({pos:[cx+1.78,.84,cz-.56],size:[.12,.3,.34],color:[1,1,.85],emis:[.7,.65,.4]});
+    const pulse=.45+Math.abs(Math.sin(t*7))*.55;
+    P({pos:[cx-.2,2.02,cz],size:[.44,.38,.44],color:[1,.75,.15],emis:[.98*pulse,.55*pulse,.05*pulse],mesh:SPH});
+    for(let i=0;i<3;i++){const ph=((t*1.05+i/3)%1),r=1.1+ph*3.2,op=(1-ph)*.9;
+      P({pos:[cx-.2,2.15,cz],size:[r,r,.02],tex:RING_TEX,color:[1,.72,.2],emis:[.95*op,.6*op,.12*op],unlit:true});}
+    poseOwner(4.6,3.0,-1.5,t); } },
 
 { iso:true, kick:"Reportes · seamos sinceros",
   ttl:"¿Y si me da flojera leerlos todos?",
@@ -1548,11 +1617,13 @@ addEventListener("resize",updateOverlay);
 
 const POINTS=[
  null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+ null,
  ["Muchas casas, muchas cosas pasando","¿Cómo sé qué ocurre en cada una?","De eso se trata Reportes"],
  ["Quién intentó entrar, qué se respaldó, qué se rompió","Cada evento queda registrado","Nada se pierde ni se olvida"],
- ["Del registro salen informes con datos","Evidencia, no suposiciones","Un resumen ejecutivo, cada día"],
+ ["Del registro salen informes con datos","Evidencia, no suposiciones","Con lo que de verdad importa"],
+ null,
  ["Un informe para cada quién","Del técnico al directivo","Listo en cuanto lo pides"],
- ["Sin pedirlo, cada día","Te lo dejan en la puerta","Listo antes de tu café"],
+ null,
  ["Son muchos datos y muchos informes","No siempre tienes el tiempo","¿Y si alguien te lo resume?"],
  ["Ve todo tu entorno","Te lo explica en simple","Cuida y aísla tus datos"],
  ["Ve tu casa, tu bóveda, tus incidentes","No es un chat a ciegas","Mira tu entorno real"],
@@ -1563,18 +1634,20 @@ const POINTS=[
 ];
 const NOTES=[
  null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-`<p><b>(Apertura)</b> Antes de entrar en materia: tú tienes <b>varias casas</b> — tus equipos, tus servidores, tus sedes — y en todas pasan cosas todo el tiempo. <span class="cue">¿Cómo te enteras de lo que ocurre en cada una?</span> De eso se trata Reportes: de que <b>nada pase sin que tú lo sepas</b>.</p>`,
-`<p><b>(Puente)</b> "El guardia no solo cuida y respalda: <b>lo anota todo</b>."</p><p>Cada cosa que pasa queda registrada — <b>quién</b> intentó entrar, <b>qué</b> se respaldó, <b>qué</b> se rompió y a qué hora. Esa bitácora se llena sola, sin que nadie tenga que acordarse. Es la materia prima de todo lo que sigue.</p>`,
-`<p>De ese registro sale el <b>informe</b>. No es una opinión ni un "creo que todo va bien": son <b>datos</b> — <span class="cue">evidencia, no suposiciones</span>. Y no esperas a pedirlo: cada día llega un <b>resumen ejecutivo</b> con lo importante.</p>`,
-`<p>Y no hay un solo informe: <b>eliges el que necesitas</b>. <span class="cue">(clic en cada tipo)</span> El <b>resumen semanal</b> para el día a día; la <b>postura mensual</b> con tu TecnetScore; el <b>reporte de incidente</b> cuando algo pasa; la <b>revisión de valor</b> para dirección; el de <b>cumplimiento</b> para la auditoría. Todos con el mismo respaldo: datos reales.</p>`,
-`<p>Y ni siquiera tienes que entrar a buscarlo. <b>Cada mañana</b>, sin pedirlo, un guardia te deja el <b>resumen del día</b> en la puerta — como el periódico: qué se respaldó, si hubo intentos, cómo va tu score. Lo importante en tres líneas, listo antes de tu café.</p>`,
-`<p><b>(Transición)</b> Ya vimos que hay informe para todo y que llega solo cada día. Pero seamos sinceros: <span class="cue">a veces da flojera leer tanto</span>, o no tienes el tiempo. Son muchos datos. ¿Y si alguien se los leyera por ti y te dijera solo lo que importa…?</p>`,
-`<p><b>(Presentación)</b> …ese alguien es <b>Neo</b>. <span class="cue">Tu analista de guardia</span>, dentro de la plataforma, las 24 horas. Ve todo tu entorno, te lo explica en simple y cuida tus datos. Deja que él lea los reportes por ti — tú solo pregúntale.</p>`,
-`<p>Empecemos por lo básico: Neo <b>mira tu entorno</b>. <span class="cue">(clic en cada uno)</span> Ve <b>tu casa</b> — si está en línea y protegida —, <b>tu bóveda</b> — cuántas copias y si están al día — y los <b>incidentes</b> — qué pasó y si ya se contuvo. Lo mismo que vimos en la escena, pero de verdad y todo el tiempo.</p>`,
-`<p>Y se lo puedes <b>preguntar en simple</b>. <span class="cue">(clic en las preguntas)</span> Y si no entiendes una pantalla, le dices <b>"explícame esta pantalla"</b> y al momento te dice qué estás viendo, con tus datos. Contesta claro, sin tecnicismos. Si te sirvió, <b>👍</b>; si no, <b>👎</b>: con tu voto, Neo mejora.</p>`,
-`<p>Lo más importante: <b>Neo no inventa</b>. No adivina ni "cree": cada respuesta sale de <b>tu propio entorno</b> — tu bitácora, tu bóveda, tus equipos. <span class="cue">Evidencia, no suposiciones.</span> Si algo no lo puede ver, te lo dice; no se lo saca de la manga.</p>`,
-`<p>Y también <b>seguridad</b>: a Neo <b>no lo engañas</b>. <span class="cue">(clic en cada intento)</span> ¿Le pides datos de <b>otro cliente</b>? No. ¿Las <b>contraseñas</b>? No. ¿Que <b>ignore sus reglas</b>? Tampoco. Solo trabaja con <b>tu</b> entorno y nunca suelta información confidencial — por más que se lo pidas o cómo se lo pidas.</p>`,
-`<p>¿Por qué? Porque cada cliente está <b>aislado</b>. Neo solo entra a <b>tu</b> casa; la del vecino ni la ve. <span class="cue">Tus datos no se cruzan con los de nadie.</span> Esa pared no se cruza — ni hacia ti, ni hacia afuera.</p><p><b>(Cierre)</b> "Reportes no es papeleo: es tu entorno, contado por alguien que lo ve todo el tiempo, sin inventar, que cuida y aísla tus datos, y que además te avisa. Eso es visibilidad de verdad."</p>`,
+ null,
+ `<p><b>(Apertura)</b> Antes de entrar en materia: tú tienes <b>varias casas</b> — tus equipos, tus servidores, tus sedes — y en todas pasan cosas todo el tiempo. <span class="cue">¿Cómo te enteras de lo que ocurre en cada una?</span> De eso se trata Reportes: de que <b>nada pase sin que tú lo sepas</b>.</p>`,
+ `<p><b>(Puente)</b> "El guardia no solo cuida y respalda: <b>lo anota todo</b>."</p><p>Cada cosa que pasa queda registrada — <b>quién</b> intentó entrar, <b>qué</b> se respaldó, <b>qué</b> se rompió y a qué hora. Esa bitácora se llena sola, sin que nadie tenga que acordarse. Es la materia prima de todo lo que sigue.</p>`,
+ `<p>De ese registro sale el <b>informe</b>. No es una opinión ni un "creo que todo va bien": son <b>datos</b> — <span class="cue">evidencia, no suposiciones</span>. Un informe claro, con <b>lo que de verdad importa</b>.</p>`,
+ null,
+ `<p>Y no hay un solo informe: <b>eliges el que necesitas</b>. <span class="cue">(clic en cada tipo)</span> El <b>resumen semanal</b> para el día a día; la <b>postura mensual</b> con tu TecnetScore; el <b>reporte de incidente</b> cuando algo pasa; la <b>revisión de valor</b> para dirección; el de <b>cumplimiento</b> para la auditoría. Todos con el mismo respaldo: datos reales.</p>`,
+ null,
+ `<p><b>(Transición)</b> Ya vimos que hay un informe para cada quién. Pero seamos sinceros: <span class="cue">a veces da flojera leer tanto</span>, o no tienes el tiempo. Son muchos datos. ¿Y si alguien se los leyera por ti y te dijera solo lo que importa…?</p>`,
+ `<p><b>(Presentación)</b> …ese alguien es <b>Neo</b>. <span class="cue">Tu analista de guardia</span>, dentro de la plataforma, las 24 horas. Ve todo tu entorno, te lo explica en simple y cuida tus datos. Deja que él lea los reportes por ti — tú solo pregúntale.</p>`,
+ `<p>Empecemos por lo básico: Neo <b>mira tu entorno</b>. <span class="cue">(clic en cada uno)</span> Ve <b>tu casa</b> — si está en línea y protegida —, <b>tu bóveda</b> — cuántas copias y si están al día — y los <b>incidentes</b> — qué pasó y si ya se contuvo. Lo mismo que vimos en la escena, pero de verdad y todo el tiempo.</p>`,
+ `<p>Y se lo puedes <b>preguntar en simple</b>. <span class="cue">(clic en las preguntas)</span> Y si no entiendes una pantalla, le dices <b>"explícame esta pantalla"</b> y al momento te dice qué estás viendo, con tus datos. Contesta claro, sin tecnicismos. Si te sirvió, <b>👍</b>; si no, <b>👎</b>: con tu voto, Neo mejora.</p>`,
+ `<p>Lo más importante: <b>Neo no inventa</b>. No adivina ni "cree": cada respuesta sale de <b>tu propio entorno</b> — tu bitácora, tu bóveda, tus equipos. <span class="cue">Evidencia, no suposiciones.</span> Si algo no lo puede ver, te lo dice; no se lo saca de la manga.</p>`,
+ `<p>Y también <b>seguridad</b>: a Neo <b>no lo engañas</b>. <span class="cue">(clic en cada intento)</span> ¿Le pides datos de <b>otro cliente</b>? No. ¿Las <b>contraseñas</b>? No. ¿Que <b>ignore sus reglas</b>? Tampoco. Solo trabaja con <b>tu</b> entorno y nunca suelta información confidencial — por más que se lo pidas o cómo se lo pidas.</p>`,
+ `<p>¿Por qué? Porque cada cliente está <b>aislado</b>. Neo solo entra a <b>tu</b> casa; la del vecino ni la ve. <span class="cue">Tus datos no se cruzan con los de nadie.</span> Esa pared no se cruza — ni hacia ti, ni hacia afuera.</p><p><b>(Cierre)</b> "Reportes no es papeleo: es tu entorno, contado por alguien que lo ve todo el tiempo, sin inventar, que cuida y aísla tus datos, y que además te avisa. Eso es visibilidad de verdad."</p>`,
 ];
 function paint(){
   const V=VIG[cur];
