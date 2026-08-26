@@ -807,7 +807,7 @@ const PORTAL_TEX=uploadA(canvasOf(512,512,(x,W,H)=>{
   x.fillStyle="#2a3a5a";[0,1,2,3].forEach(i=>x.fillRect(178,306+i*40,282,18));
 }));
 /* signo de interrogación flotante */
-const NOCHE_TEX=uploadA(canvasOf(512,680,(x)=>{
+const NOCHE_TEX=uploadA(canvasOf(768,1020,(x)=>{x.scale(1.5,1.5);
   x.textAlign="left";x.textBaseline="alphabetic";
   x.fillStyle="#ffffff";x.fillRect(0,0,512,680);
   x.font="bold 26px 'Segoe UI',sans-serif";
@@ -843,6 +843,11 @@ const NOCHE_TEX=uploadA(canvasOf(512,680,(x)=>{
 const RING_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,256,256);
   x.strokeStyle="#ffb020";x.lineWidth=26;x.beginPath();x.arc(128,128,98,0,7);x.stroke();
+}));
+const GLOW_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
+  var g=x.createRadialGradient(128,128,0,128,128,128);
+  g.addColorStop(0,"rgba(150,175,235,.62)");g.addColorStop(.55,"rgba(120,150,220,.18)");g.addColorStop(1,"rgba(120,150,220,0)");
+  x.fillStyle=g;x.fillRect(0,0,256,256);
 }));
 const Q_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,W,H);
@@ -1380,7 +1385,8 @@ const VIG=[
   points:["El elenco: el ladrón, el guardia, Neo…","…la bóveda, las dos casas, el temblor","Falta quien lo ve todo y te lo cuenta"],
   notes:`<p><b>(Puente)</b> Antes de seguir, recordemos a los personajes de esta historia: el <b>ladrón</b>, el <b>guardia</b>, <b>Neo</b>, la <b>bóveda</b>, las <b>dos casas</b>, el <b>temblor</b>. <span class="cue">¿Quién falta?</span> Falta <b>quien lo ve todo y te lo cuenta</b> — para que nada pase sin que tú lo sepas. Eso son los <b>reportes</b>.</p>`,
   cam:{eye:[0,2.6,9.5],tgt:[0,1.55,0],fov:.85}, noGuard:true,
-  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.05,.06,.12];
+  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.19,.21,.33];
+    P({pos:[0,1.7+by,-1.4],size:[6.6,6.6,.02],tex:GLOW_TEX,color:[1,1,1],emis:[.55,.62,.92],unlit:true});
     P({pos:[0,1.35+by,0],size:[1.15,1.5,.62],color:dark,unlit:true});
     P({pos:[-.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,.16]});
     P({pos:[.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,-.16]});
@@ -1428,8 +1434,8 @@ const VIG=[
   ttl:"Lo que pasó en tu casa anoche",
   points:["A qué hora entró y por dónde","Qué se detuvo y qué se recuperó","Y lo único que necesita tu decisión"],
   notes:`<p><b>(Ejemplo real)</b> Así se ve un informe cuando <b>algo sí pasó</b>. En una sola hoja: <b>a qué hora</b> entró y por dónde, <b>qué se detuvo</b>, <b>qué se recuperó</b> — y, resaltado en rojo, <b>lo único que necesita tu decisión</b> (esa llave hay que cambiarla hoy). <span class="cue">Claro, con pruebas y sin tecnicismos.</span></p>`,
-  cam:{eye:[2.2,2.9,8.6],tgt:[.1,2.0,0],fov:.82}, noGuard:true,
-  build(t){ reportDoc(0,0,NOCHE_TEX,1.4); } },
+  cam:{eye:[-1.9,2.15,7.9],tgt:[-1.9,2.15,0],fov:.82}, noGuard:true,
+  build(t){ reportDoc(0,0,NOCHE_TEX,1.85); } },
 
 { iso:true, kick:"Reportes · a la medida",
   ttl:"Elige el informe que necesitas",
@@ -1444,17 +1450,19 @@ const VIG=[
   notes:`<p><b>(La analogía)</b> Piensa en la <b>alarma de un coche</b>: si suena y suena por todo, el dueño deja de voltear — y el día que <b>de verdad</b> se lo están robando, ya nadie hace caso. Con los reportes pasa igual: <span class="cue">si te llegan a diario "por llegar", dejas de leerlos</span>. Por eso no te saturamos: te contamos <b>lo que importa, cuando importa</b> — y para lo demás, está <b>Neo</b>.</p>`,
   cam:{eye:[7.6,4.6,12.4],tgt:[-.2,1.4,0],fov:.82}, noGuard:true,
   build(t){ const cx=0,cz=0,body=[.80,.16,.17],bodyE=[.2,.02,.02];
-    [[-1.15,.86],[1.15,.86],[-1.15,-.86],[1.15,-.86]].forEach(w=>P({pos:[cx+w[0],.44,cz+w[1]],size:[.82,.82,.56],color:[.07,.07,.09],mesh:SPH}));
-    P({pos:[cx,.8,cz],size:[3.5,.74,1.62],color:body,emis:bodyE});
-    P({pos:[cx-.2,1.46,cz],size:[1.95,.74,1.42],color:body,emis:bodyE});
-    P({pos:[cx-.2,1.48,cz+.73],size:[1.72,.52,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
-    P({pos:[cx-.2,1.48,cz-.73],size:[1.72,.52,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
-    P({pos:[cx+1.78,.84,cz+.56],size:[.12,.3,.34],color:[1,1,.85],emis:[.7,.65,.4]});
-    P({pos:[cx+1.78,.84,cz-.56],size:[.12,.3,.34],color:[1,1,.85],emis:[.7,.65,.4]});
+    P({pos:[cx,.98,cz],size:[3.3,.64,1.48],color:body,emis:bodyE});
+    P({pos:[cx-.2,1.56,cz],size:[1.9,.7,1.3],color:body,emis:bodyE});
+    P({pos:[cx-.2,1.58,cz+.67],size:[1.66,.5,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
+    P({pos:[cx-.2,1.58,cz-.67],size:[1.66,.5,.05],color:[.55,.78,.95],emis:[.08,.12,.18]});
+    [[-1.12,.8],[1.12,.8],[-1.12,-.8],[1.12,-.8]].forEach(w=>{
+      P({pos:[cx+w[0],.42,cz+w[1]],size:[.84,.84,.66],color:[.16,.16,.19],mesh:SPH});
+      P({pos:[cx+w[0],.42,cz+w[1]+(w[1]>0?.35:-.35)],size:[.34,.34,.08],color:[.55,.57,.64],emis:[.07,.07,.08],mesh:SPH});});
+    P({pos:[cx+1.7,.95,cz+.5],size:[.12,.28,.32],color:[1,1,.85],emis:[.7,.65,.4]});
+    P({pos:[cx+1.7,.95,cz-.5],size:[.12,.28,.32],color:[1,1,.85],emis:[.7,.65,.4]});
     const pulse=.45+Math.abs(Math.sin(t*7))*.55;
-    P({pos:[cx-.2,2.02,cz],size:[.44,.38,.44],color:[1,.75,.15],emis:[.98*pulse,.55*pulse,.05*pulse],mesh:SPH});
+    P({pos:[cx-.2,2.14,cz],size:[.44,.38,.44],color:[1,.75,.15],emis:[.98*pulse,.55*pulse,.05*pulse],mesh:SPH});
     for(let i=0;i<3;i++){const ph=((t*1.05+i/3)%1),r=1.1+ph*3.2,op=(1-ph)*.9;
-      P({pos:[cx-.2,2.15,cz],size:[r,r,.02],tex:RING_TEX,color:[1,.72,.2],emis:[.95*op,.6*op,.12*op],unlit:true});}
+      P({pos:[cx-.2,2.28,cz],size:[r,r,.02],tex:RING_TEX,color:[1,.72,.2],emis:[.95*op,.6*op,.12*op],unlit:true});}
     poseOwner(4.6,3.0,-1.5,t); } },
 
 { iso:true, kick:"Reportes · seamos sinceros",
@@ -1476,8 +1484,8 @@ const VIG=[
     neoBall(0,2.9,0,1.9,0,0);
     [[-3.4,4.8],[3.4,4.5],[-3.8,1.7],[3.8,1.9]].forEach(pp=>P({pos:[pp[0],pp[1],.3],size:[.3,.3,.05],color:[1,1,.85],emis:[.95,.85,.45],rot:[0,0,.785]})); } },
 
-{ iso:true, kick:"Reportes · Neo vigila",
-  ttl:"Neo mira todo tu entorno",
+{ iso:true, kick:"Reportes · Neo investiga",
+  ttl:"Neo investiga todo tu entorno",
   kind:"neoenv",
   cam(){ return ENVS[ENT.sel].cam; },
   noGuard:true,
@@ -1643,7 +1651,7 @@ const NOTES=[
  null,
  `<p><b>(Transición)</b> Ya vimos que hay un informe para cada quién. Pero seamos sinceros: <span class="cue">a veces da flojera leer tanto</span>, o no tienes el tiempo. Son muchos datos. ¿Y si alguien se los leyera por ti y te dijera solo lo que importa…?</p>`,
  `<p><b>(Presentación)</b> …ese alguien es <b>Neo</b>. <span class="cue">Tu analista de guardia</span>, dentro de la plataforma, las 24 horas. Ve todo tu entorno, te lo explica en simple y cuida tus datos. Deja que él lea los reportes por ti — tú solo pregúntale.</p>`,
- `<p>Empecemos por lo básico: Neo <b>mira tu entorno</b>. <span class="cue">(clic en cada uno)</span> Ve <b>tu casa</b> — si está en línea y protegida —, <b>tu bóveda</b> — cuántas copias y si están al día — y los <b>incidentes</b> — qué pasó y si ya se contuvo. Lo mismo que vimos en la escena, pero de verdad y todo el tiempo.</p>`,
+ `<p>Empecemos por lo básico: Neo <b>investiga tu entorno</b>. <span class="cue">(clic en cada uno)</span> Ve <b>tu casa</b> — si está en línea y protegida —, <b>tu bóveda</b> — cuántas copias y si están al día — y los <b>incidentes</b> — qué pasó y si ya se contuvo. Lo mismo que vimos en la escena, pero de verdad y todo el tiempo.</p>`,
  `<p>Y se lo puedes <b>preguntar en simple</b>. <span class="cue">(clic en las preguntas)</span> Y si no entiendes una pantalla, le dices <b>"explícame esta pantalla"</b> y al momento te dice qué estás viendo, con tus datos. Contesta claro, sin tecnicismos. Si te sirvió, <b>👍</b>; si no, <b>👎</b>: con tu voto, Neo mejora.</p>`,
  `<p>Lo más importante: <b>Neo no inventa</b>. No adivina ni "cree": cada respuesta sale de <b>tu propio entorno</b> — tu bitácora, tu bóveda, tus equipos. <span class="cue">Evidencia, no suposiciones.</span> Si algo no lo puede ver, te lo dice; no se lo saca de la manga.</p>`,
  `<p>Y también <b>seguridad</b>: a Neo <b>no lo engañas</b>. <span class="cue">(clic en cada intento)</span> ¿Le pides datos de <b>otro cliente</b>? No. ¿Las <b>contraseñas</b>? No. ¿Que <b>ignore sus reglas</b>? Tampoco. Solo trabaja con <b>tu</b> entorno y nunca suelta información confidencial — por más que se lo pidas o cómo se lo pidas.</p>`,
