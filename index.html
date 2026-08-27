@@ -1687,6 +1687,20 @@ const VIG=[
   cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
   build(t){} },
 
+{ iso:true, kick:"Cierre · a jugar",
+  ttl:"Y ahora… te toca a ti: ¡a jugar!",
+  points:["Un quiz sobre todo lo que vimos hoy","Párate en la respuesta correcta a tiempo","Si fallas, la plataforma cae… te atrapa el ransomware"],
+  notes:`<p><b>(A jugar)</b> Para cerrar, lo ponemos a prueba con un <b>juego</b>: aparece una pregunta y cada plataforma es una respuesta. <b>Párate en la correcta</b> antes de que se acabe el tiempo. <span class="cue">Si fallas, tu plataforma se desploma y te atrapa el ransomware</span> — pero vuelves para la siguiente. Neo presenta. ¡Vamos!</p>`,
+  cam:{eye:[0,4.6,14.5],tgt:[0,1.1,-1],fov:.96}, noGuard:true,
+  build(t){ const yb=4.7+Math.sin(t*1.6)*.08;
+    P({pos:[0,-3.4,-3],size:[46,.4,46],color:[.18,.02,.03],emis:[.07,0,0]});
+    const cols=[[.82,.30,.28],[.28,.54,.86],[.92,.74,.22],[.36,.72,.44]];
+    const P4=[[-5.2,.2,-.4],[-1.8,.9,1.3],[1.8,.5,-1.3],[5.2,1.0,.6]];
+    P4.forEach((pp,i)=>{ const c=cols[i],fl=Math.sin(t*1.6+i*1.3)*.13;
+      P({pos:[pp[0],pp[1]+fl,pp[2]],size:[2.5,.5,2.5],color:c,emis:[c[0]*.24,c[1]*.24,c[2]*.24]});
+      P({pos:[pp[0],pp[1]+fl+.29,pp[2]],size:[2.06,.1,2.06],color:c.map(v=>Math.min(1,v*1.35))}); });
+    neoBall(0,yb,2.0,1.45,0,1); } },
+
 { sec:"Cierre", full:true, cierre:true, kick:"", ttl:"",
   points:[],
   notes:`<p><b>(Cierre)</b> Cerramos con la idea de fondo: un ataque no se gana solo deteniéndolo, se gana cuando la empresa vuelve a trabajar. Gracias.</p>`,
