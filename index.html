@@ -905,6 +905,30 @@ const ORDER_TEX=uploadA(canvasOf(1024,512,(x)=>{
   x.fillStyle="#16324f";x.font="bold 50px 'Segoe UI',sans-serif";wrapText(x,"Guardia: haz el respaldo del servidor ya.",60,120,880,62);
   x.fillStyle="#2f9e54";x.font="italic 33px 'Segoe UI'";x.fillText("— Neo · ya lo aprobaste",60,332);
 }));
+const ALERT_TEX=uploadA(canvasOf(768,448,(x)=>{
+  x.textBaseline="alphabetic";x.textAlign="left";
+  x.fillStyle="#fff7ed";x.fillRect(0,0,768,448);
+  x.fillStyle="#c2410c";x.fillRect(0,0,768,88);
+  x.fillStyle="#fff";x.font="bold 40px 'Segoe UI'";x.fillText("Aviso de Neo",30,58);
+  x.fillStyle="#c2410c";x.beginPath();x.arc(715,44,20,0,7);x.fill();
+  x.fillStyle="#fff";x.font="bold 34px 'Segoe UI'";x.fillText("!",709,56);
+  x.fillStyle="#7c2d12";x.font="bold 33px 'Segoe UI'";
+  wrapText(x,"Detecté un intento en un equipo.",30,158,710,44);
+  x.fillStyle="#3a2a1a";x.font="29px 'Segoe UI'";
+  wrapText(x,"Ya lo aislé. Te aviso por si quieres que lo revise a fondo.",30,226,710,40);
+  x.fillStyle="#2f9e54";x.beginPath();x.arc(50,340,13,0,7);x.fill();
+  x.fillStyle="#14532d";x.font="bold 26px 'Segoe UI'";x.fillText("Equipo contenido",82,350);
+  x.fillStyle="#c2410c";x.beginPath();x.arc(50,398,13,0,7);x.fill();
+  x.fillStyle="#7c2d12";x.font="bold 26px 'Segoe UI'";x.fillText("Necesito tu visto bueno para ir más a fondo",82,408);
+}));
+const ASK_TEX=uploadA(canvasOf(1024,512,(x)=>{
+  x.clearRect(0,0,1024,512);x.textAlign="left";x.textBaseline="alphabetic";
+  x.fillStyle="#ffffff";roundRect(x,26,20,972,344,48);x.fill();
+  x.lineWidth=6;x.strokeStyle="#67e8f9";roundRect(x,26,20,972,344,48);x.stroke();
+  x.fillStyle="#ffffff";x.beginPath();x.moveTo(210,352);x.lineTo(372,352);x.lineTo(176,478);x.closePath();x.fill();
+  x.fillStyle="#16324f";x.font="bold 48px 'Segoe UI'";wrapText(x,"¿Qué quieres saber de tu entorno? Pregúntame.",60,116,880,60);
+  x.fillStyle="#2f9e54";x.font="italic 32px 'Segoe UI'";x.fillText("— y también puedo hacerlo por ti",60,322);
+}));
 const Q_TEX=uploadA(canvasOf(256,256,(x,W,H)=>{
   x.clearRect(0,0,W,H);
   x.fillStyle="#f6a13a";x.beginPath();x.arc(128,128,112,0,7);x.fill();
@@ -1436,23 +1460,10 @@ const VIG=[
   cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
   build(t){} },
 
-{ iso:true, kick:"Reportes · a fondo",
-  ttl:"¿Quién falta en esta historia?",
-  points:["El elenco: el ladrón, el guardia, Neo…","…la bóveda, las dos casas, el temblor","Falta quien lo ve todo y te lo cuenta"],
-  notes:`<p><b>(Puente)</b> Antes de seguir, recordemos a los personajes de esta historia: el <b>ladrón</b>, el <b>guardia</b>, <b>Neo</b>, la <b>bóveda</b>, las <b>dos casas</b>, el <b>temblor</b>. <span class="cue">¿Quién falta?</span> Falta <b>quien lo ve todo y te lo cuenta</b> — para que nada pase sin que tú lo sepas. Eso son los <b>reportes</b>.</p>`,
-  cam:{eye:[0,2.6,9.5],tgt:[0,1.55,0],fov:.85}, noGuard:true,
-  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.19,.21,.33];
-    P({pos:[0,1.7+by,-1.4],size:[6.6,6.6,.02],tex:GLOW_TEX,color:[1,1,1],emis:[.55,.62,.92],unlit:true});
-    P({pos:[0,1.35+by,0],size:[1.15,1.5,.62],color:dark,unlit:true});
-    P({pos:[-.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,.16]});
-    P({pos:[.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,-.16]});
-    P({pos:[-.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
-    P({pos:[.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
-    P({pos:[0,2.52+by,-.05],size:[.72,.72,.55],color:dark,mesh:SPH,unlit:true});
-    qmark(0,2.52+by,.42); } },
-
 { iso:true, kick:"Reportes · el punto de partida",
   ttl:"¿Cómo me entero de todo lo que pasa en mis casas?",
+  points:["Muchas casas, muchas cosas pasando","¿Cómo sé qué ocurre en cada una?","De eso se trata Reportes"],
+  notes:`<p><b>(Apertura)</b> Antes de entrar en materia: tú tienes <b>varias casas</b> — tus equipos, tus servidores, tus sedes — y en todas pasan cosas todo el tiempo. <span class="cue">¿Cómo te enteras de lo que ocurre en cada una?</span> De eso se trata Reportes: de que <b>nada pase sin que tú lo sepas</b>.</p>`,
   cam:{eye:[0,5.6,21.5],tgt:[0,2.6,-2],fov:.98},
   noGuard:true,
   build(t){ grassPlot(0,-0.8,27,16);
@@ -1463,6 +1474,8 @@ const VIG=[
 
 { iso:true, kick:"Reportes · la bitácora",
   ttl:"El guardia lo anota todo",
+  points:["Quién intentó entrar, qué se respaldó, qué se rompió","Cada evento queda registrado","Nada se pierde ni se olvida"],
+  notes:`<p><b>(Puente)</b> "El guardia no solo cuida y respalda: <b>lo anota todo</b>."</p><p>Cada cosa que pasa queda registrada — <b>quién</b> intentó entrar, <b>qué</b> se respaldó, <b>qué</b> se rompió y a qué hora. Esa bitácora se llena sola, sin que nadie tenga que acordarse. Es la materia prima de todo lo que sigue.</p>`,
   cam:{eye:[8.2,4.8,11.4],tgt:[.2,1.7,1.2],fov:.92},
   noGuard:true,
   build(t){ grassPlot(0.8,2.5,14,10);
@@ -1478,6 +1491,8 @@ const VIG=[
 
 { iso:true, kick:"Reportes · la evidencia",
   ttl:"De las notas, un informe",
+  points:["Del registro salen informes con datos","Evidencia, no suposiciones","Con lo que de verdad importa"],
+  notes:`<p>De ese registro sale el <b>informe</b>. No es una opinión ni un "creo que todo va bien": son <b>datos</b> — <span class="cue">evidencia, no suposiciones</span>. Un informe claro, con <b>lo que de verdad importa</b>.</p>`,
   cam:{eye:[4.6,3.25,9.4],tgt:[.6,1.75,-.1],fov:.82},
   noGuard:true,
   build(t){ reportDoc(.9,0,REPTX[1],1.18);
@@ -1521,18 +1536,32 @@ const VIG=[
       P({pos:[cx-.2,2.28,cz],size:[r,r,.02],tex:RING_TEX,color:[1,.72,.2],emis:[.95*op,.6*op,.12*op],unlit:true});}
     poseOwner(4.6,3.0,-1.5,t); } },
 
-{ iso:true, kick:"Reportes · seamos sinceros",
-  ttl:"¿Y si me da flojera leerlos todos?",
-  cam:{eye:[5.0,3.4,9.8],tgt:[.0,1.9,.2],fov:.92},
-  noGuard:true,
-  build(t){ reportDoc(-2.6,-.2,REPTX[0],.82);
-    reportDoc(-.7,.1,REPTX[1],.96);
-    reportDoc(1.3,-.3,REPTX[2],.88);
-    reportDoc(3.2,-.1,REPTX[3],.8);
-    poseOwner(4.9,3.2,-1.3,t); } },
+{ sec:"Reportes", full:true, portal:true, kick:"En vivo",
+  ttl:"Veámoslo en el portal: tus reportes",
+  points:["Cambiamos a la plataforma","Los informes y el resumen, en vivo","(demo en pantalla)"],
+  notes:`<p><b>(Portal · Reportes)</b> Cambia al portal y muestra los reportes en vivo: el resumen, los tipos de informe, el de anoche. Luego volvemos para presentar a Neo.</p>`,
+  cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
+  build(t){} },
 
-{ iso:true, kick:"Reportes · conoce a",
-  ttl:"Neo",
+{ iso:true, kick:"Reportes · a fondo",
+  ttl:"¿Quién falta en esta historia?",
+  points:["El ladrón, el guardia, la bóveda, el temblor…","Falta quien lo vio y coordinó todo","Toda la noche, por detrás: falta él"],
+  notes:`<p><b>(El giro)</b> En toda esta historia — el <b>ladrón</b>, el <b>guardia</b>, la <b>bóveda</b>, el <b>temblor</b> — ¿quién falta? <span class="cue">El que lo vio todo y lo coordinó todo, toda la noche, por detrás.</span> Ahora sí, conócelo.</p>`,
+  cam:{eye:[0,2.6,9.5],tgt:[0,1.55,0],fov:.85}, noGuard:true,
+  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.19,.21,.33];
+    P({pos:[0,1.7+by,-1.4],size:[6.6,6.6,.02],tex:GLOW_TEX,color:[1,1,1],emis:[.55,.62,.92],unlit:true});
+    P({pos:[0,1.35+by,0],size:[1.15,1.5,.62],color:dark,unlit:true});
+    P({pos:[-.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,.16]});
+    P({pos:[.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,-.16]});
+    P({pos:[-.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[0,2.52+by,-.05],size:[.72,.72,.55],color:dark,mesh:SPH,unlit:true});
+    qmark(0,2.52+by,.42); } },
+
+{ iso:true, kick:"Reportes · el cerebro del SOC",
+  ttl:"Presentamos a Neo",
+  points:["No es una burbujita que aparece","Es el cerebro detrás del SOC","Vigila, investiga y coordina, sin parar"],
+  notes:`<p><b>(El reveal)</b> Ese "alguien" que faltaba es <b>Neo</b>. Y no es una <b>burbujita</b> en una esquina: es <b>el cerebro del SOC</b> — lo que hace que todo lo demás funcione. <span class="cue">Vigila, investiga y coordina, todo el tiempo.</span></p>`,
   cam:{eye:[0,2.9,10.6],tgt:[0,2.75,0],fov:.82},
   noGuard:true,
   build(t){ burst(0,2.9,-.9,14,[.98,.78,.3]);
@@ -1540,12 +1569,59 @@ const VIG=[
     neoBall(0,2.9,0,1.9,0,0);
     [[-3.4,4.8],[3.4,4.5],[-3.8,1.7],[3.8,1.9]].forEach(pp=>P({pos:[pp[0],pp[1],.3],size:[.3,.3,.05],color:[1,1,.85],emis:[.95,.85,.45],rot:[0,0,.785]})); } },
 
+{ iso:true, kick:"Reportes · manos y cabeza",
+  ttl:"Los guardias son las manos; Neo, la cabeza",
+  points:["Tu vigía, tus respaldos, tus equipos: guardias","Neo los escucha a todos y decide","El guardia hace; Neo piensa"],
+  notes:`<p>Toda la noche viste guardias trabajando: el que vigila, el que respalda, el que cuida los equipos. <b>Neo es quien los escucha a todos</b>, junta lo que cada uno ve y decide qué importa. <span class="cue">El guardia son las manos; Neo, la cabeza.</span></p>`,
+  cam:{eye:[0,3.3,11.4],tgt:[.2,2.3,.2],fov:.95},
+  build(t){ const yb=2.7+Math.sin(t*1.6)*.08;
+    neoBall(-2.5,yb,2.7,1.2,0.55);
+    poseGuard(3.0,3.4,1.55,t);
+    beam([-2.5,yb,2.8],[3.0,2.1,-.4]); } },
+
+{ iso:true, kick:"Reportes · todo a la vez",
+  ttl:"Neo lo ve todo, a la vez",
+  points:["No una casa: todas","Al mismo tiempo, y sin dormir","Un cerebro que nunca deja de mirar"],
+  notes:`<p>Y no vigila una casa: <b>las tuyas todas, al mismo tiempo</b>, sin descanso. Donde un guardia levanta la mano, Neo ya está mirando. <span class="cue">Un cerebro que nunca duerme.</span></p>`,
+  cam:{eye:[0,7,17],tgt:[0,2,-2.4],fov:1.0}, noGuard:true,
+  build(t){ const yb=4.7+Math.sin(t*1.6)*.09;
+    const mh=(hx,hz)=>{
+      P({pos:[hx,.55,hz],size:[1.5,1.1,1.3],color:[.93,.88,.73],emis:[.06,.05,.04]});
+      P({pos:[hx,1.2,hz],size:[1.85,.16,1.55],color:[.8,.35,.28],emis:[.14,.05,.04]});
+      P({pos:[hx,1.48,hz],size:[1.15,.5,.95],color:[.82,.37,.3],emis:[.14,.05,.04]});
+      P({pos:[hx,.44,hz+.66],size:[.34,.52,.06],color:[.4,.27,.17]});
+      P({pos:[hx-.42,.64,hz+.66],size:[.26,.26,.05],color:[.78,.86,.5],emis:[.32,.36,.16]});
+      P({pos:[hx+.42,.64,hz+.66],size:[.26,.26,.05],color:[.78,.86,.5],emis:[.32,.36,.16]}); };
+    const HH=[[-7,-2.4],[-2.4,-3.4],[2.4,-3.4],[7,-2.4]];
+    HH.forEach(h=>{ mh(h[0],h[1]); beam([0,yb-.3,2.2],[h[0],1.3,h[1]]); });
+    neoBall(0,yb,2.2,1.5,0); } },
+
 { iso:true, kick:"Reportes · Neo investiga",
   ttl:"Neo investiga todo tu entorno",
   kind:"neoenv",
   cam(){ return ENVS[ENT.sel].cam; },
   noGuard:true,
   build(t){ ENVS[ENT.sel].build(t); } },
+
+{ iso:true, kick:"Reportes · responde y avisa",
+  ttl:"Neo responde y te avisa",
+  points:["Lo chico y seguro, lo resuelve solo","Lo grande lo confirma una persona","Y te avisa: encontramos esto"],
+  notes:`<p>Cuando algo es real, Neo <b>no se queda mirando</b>: lo pequeño y seguro lo resuelve solo (aísla un equipo); lo grande lo <b>confirma una persona</b>. Y siempre te <b>avisa</b>: <span class="cue">"oye, encontramos esto en tu casa".</span></p>`,
+  cam:{eye:[.6,3.0,10.0],tgt:[.4,2.5,-.1],fov:.95}, noGuard:true,
+  build(t){ const yb=2.7+Math.sin(t*1.6)*.08;
+    neoBall(-2.9,yb,2.7,1.12,0.5);
+    P({pos:[1.9,3.0,-.05],size:[3.3,1.95,.06],color:[.86,.5,.28],emis:[.2,.09,.04]});
+    P({pos:[1.9,3.0,0],size:[3.1,1.78,.04],tex:ALERT_TEX,color:[1,1,1],unlit:true});
+    poseOwner(5.1,3.2,-1.5,t); } },
+
+{ iso:true, kick:"Reportes · y además",
+  ttl:"Y además, puedes hablarle directo",
+  points:["Todo eso pasa por detrás","Y encima, le preguntas a Neo","Tu entorno, explicado por quien lo ve todo"],
+  notes:`<p>Todo lo anterior pasa <b>por detrás</b>, sin que muevas un dedo. Y encima, <b>puedes hablarle directo</b>: preguntarle por tu entorno o pedirle que haga algo. <span class="cue">Ese cerebro también es tu ventana.</span></p>`,
+  cam:{eye:[-.4,3.0,9.6],tgt:[.3,2.5,-.2],fov:.95}, noGuard:true,
+  build(t){ const yb=2.3+Math.sin(t*1.6)*.09;
+    neoBall(-2.5,yb,2.6,1.15,0.4);
+    speechBubble(1.1,4.0,2.3,3.6,1.8,ASK_TEX); } },
 
 { iso:true, kick:"Reportes · Neo explica",
   ttl:"Pregúntale y te lo explica claro",
@@ -1558,6 +1634,8 @@ const VIG=[
 
 { iso:true, kick:"Reportes · sin inventar",
   ttl:"Neo no adivina: usa tu entorno",
+  points:["Neo no adivina ni inventa","Responde con TU entorno","Evidencia, no suposiciones"],
+  notes:`<p>Lo más importante: <b>Neo no inventa</b>. No adivina ni "cree": cada respuesta sale de <b>tu propio entorno</b> — tu bitácora, tu bóveda, tus equipos. <span class="cue">Evidencia, no suposiciones.</span> Si algo no lo puede ver, te lo dice; no se lo saca de la manga.</p>`,
   cam:{eye:[0,3.2,10.2],tgt:[0,2.6,-.3],fov:.95},
   noGuard:true,
   build(t){ const yb=2.1+Math.sin(t*1.6)*.09;
@@ -1581,6 +1659,8 @@ const VIG=[
 
 { iso:true, kick:"Reportes · aislamiento",
   ttl:"Cada quien ve solo lo suyo",
+  points:["Neo solo entra a TU casa","Los datos no se cruzan","Lo de otros, ni lo ve"],
+  notes:`<p>¿Por qué? Porque cada cliente está <b>aislado</b>. Neo solo entra a <b>tu</b> casa; la del vecino ni la ve. <span class="cue">Tus datos no se cruzan con los de nadie.</span> Esa pared no se cruza — ni hacia ti, ni hacia afuera.</p><p><b>(Cierre)</b> "Reportes no es papeleo: es tu entorno, contado por alguien que lo ve todo el tiempo, sin inventar, que cuida y aísla tus datos, y que además te avisa. Eso es visibilidad de verdad."</p><p><b>(Y hay más)</b> Y no solo la cuenta: como veremos, Neo también <b>actúa</b> por ti — siempre con tu permiso.</p>`,
   cam:{eye:[1.4,5.2,15.6],tgt:[.6,2.2,-.5],fov:.98},
   noGuard:true,
   build(t){ grassPlot(0.6,-0.2,16,11);
@@ -1636,9 +1716,10 @@ const VIG=[
     speechBubble(-.55,4.25,2.5,3.7,1.85,ORDER_TEX);
     poseGuard(3.2,3.4,1.55,t); } },
 
-{ sec:"Reportes", full:true, portal:true, kick:"En vivo", ttl:"Ahora, veámoslo en el portal",
-  points:["Cambiamos a la plataforma","Neo y los reportes, en vivo","(demo en pantalla)"],
-  notes:`<p><b>(Cierre / Portal)</b> Cambia al portal y muestra Reportes y Neo en vivo. Con esto cerramos la presentación.</p>`,
+{ sec:"Neo", full:true, portal:true, kick:"En vivo",
+  ttl:"Veámoslo en el portal: Neo",
+  points:["Cambiamos a la plataforma","Neo en vivo: pregúntale y actúa","(demo en pantalla)"],
+  notes:`<p><b>(Portal · Neo)</b> Cambia al portal y muestra a Neo en vivo: pregúntale por el entorno y una acción con aprobación. Con esto cerramos.</p>`,
   cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
   build(t){} },
 
@@ -1646,7 +1727,7 @@ const VIG=[
   points:[],
   notes:`<p><b>(Cierre)</b> Cerramos con la idea de fondo: un ataque no se gana solo deteniéndolo, se gana cuando la empresa vuelve a trabajar. Gracias.</p>`,
   cam:{eye:[0,2,10],tgt:[0,2,0],fov:.8}, noGuard:true,
-  build(t){} },
+  build(t){} }
 ];
 
 /* ═══════════ render ═══════════ */
