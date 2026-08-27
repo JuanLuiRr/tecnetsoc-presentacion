@@ -1468,6 +1468,21 @@ const VIG=[
   cam:{eye:[0,2.6,7.4],tgt:[0,2.2,0],fov:.85}, noGuard:true,
   build(t){} },
 
+{ iso:true, kick:"Reportes · a fondo",
+  ttl:"¿Quién falta en esta historia?",
+  points:["El elenco: el ladrón, el guardia, Neo…","…la bóveda, las dos casas, el temblor","Falta quien lo ve todo y te lo cuenta"],
+  notes:`<p><b>(Puente)</b> Antes de entrar, recordemos a los personajes: el <b>ladrón</b>, el <b>guardia</b>, <b>Neo</b>, la <b>bóveda</b>, las <b>dos casas</b>, el <b>temblor</b>. <span class="cue">¿Quién falta?</span> Falta <b>quien lo ve todo y te lo cuenta</b> — para que nada pase sin que tú lo sepas. Eso son los <b>reportes</b>.</p>`,
+  cam:{eye:[0,2.6,9.5],tgt:[0,1.55,0],fov:.85}, noGuard:true,
+  build(t){ const by=Math.sin(t*1.4)*.09,dark=[.19,.21,.33];
+    P({pos:[0,1.7+by,-1.4],size:[6.6,6.6,.02],tex:GLOW_TEX,color:[1,1,1],emis:[.55,.62,.92],unlit:true});
+    P({pos:[0,1.35+by,0],size:[1.15,1.5,.62],color:dark,unlit:true});
+    P({pos:[-.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,.16]});
+    P({pos:[.72,1.5+by,0],size:[.3,1.05,.34],color:dark,unlit:true,rot:[0,0,-.16]});
+    P({pos:[-.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[.3,.35+by,0],size:[.38,1.25,.44],color:dark,unlit:true});
+    P({pos:[0,2.52+by,-.05],size:[.72,.72,.55],color:dark,mesh:SPH,unlit:true});
+    qmark(0,2.52+by,.42); } },
+
 { iso:true, kick:"Reportes · el punto de partida",
   ttl:"¿Cómo me entero de todo lo que pasa en mis casas?",
   points:["Muchas casas, muchas cosas pasando","¿Cómo sé qué ocurre en cada una?","De eso se trata Reportes"],
