@@ -1600,10 +1600,7 @@ const VIG=[
   notes:`<p><b>(El reveal)</b> Ese "alguien" es <b>Neo</b>. Y ojo: <b>no es la burbujita</b> que aparece en una esquina del portal — <span class="cue">es el cerebro que hace funcionar todo el SOC.</span> Vigila, investiga y coordina, todo el tiempo.</p>`,
   cam:{eye:[0,2.9,10.6],tgt:[0,2.75,0],fov:.82},
   noGuard:true,
-  build(t){ burst(0,2.9,-.9,14,[.98,.78,.3]);
-    P({pos:[0,1.35,-1.7],size:[1.55,2.9,.12],color:[.82,.22,.26],emis:[.22,.04,.05],rot:[0,0,.1]});
-    neoBall(0,2.9,0,1.9,0,0);
-    [[-3.4,4.8],[3.4,4.5],[-3.8,1.7],[3.8,1.9]].forEach(pp=>P({pos:[pp[0],pp[1],.3],size:[.3,.3,.05],color:[1,1,.85],emis:[.95,.85,.45],rot:[0,0,.785]})); } },
+  build(t){ const yb=2.9+Math.sin(t*1.6)*.08; neoBall(0,yb,0,2.5,0,0); } },
 
 { iso:true, kick:"Reportes · manos y cabeza",
   ttl:"Los guardias son las manos; Neo, la cabeza",
