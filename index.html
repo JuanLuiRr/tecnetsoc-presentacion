@@ -537,24 +537,8 @@ const NEOATX=NEOQA.map(o=>neoAnswerTex(o.q,o.a,o.src));
 
 /* Neo: bola azul con lentes, mirando a +z */
 function neoBall(x,y,z,s,yaw,mood){
-  s=s||1;yaw=yaw||0;mood=mood||0;
-  const fx=Math.sin(yaw),fz=Math.cos(yaw),rx=Math.cos(yaw),rz=-Math.sin(yaw);
-  P({pos:[x,y,z],size:[1.6*s,1.6*s,1.6*s],color:[.18,.55,.95],emis:[.10,.34,.66],mesh:SPH});
-  const ey=y+.15*s,o=.62*s,ex=.36*s,cgx=x+fx*o,cgz=z+fz*o;
-  [-1,1].forEach(g=>{
-    const lx=cgx+rx*ex*g,lz=cgz+rz*ex*g;
-    P({pos:[lx,ey,lz],size:[.48*s,.48*s,.1*s],color:[.05,.08,.14],emis:[.02,.03,.05],rot:[0,yaw,0]});
-    P({pos:[lx+fx*.05*s,ey,lz+fz*.05*s],size:[.31*s,.31*s,.04*s],color:[.55,.82,.98],emis:[.26,.52,.72],rot:[0,yaw,0]});
-    P({pos:[lx+rx*.06*s+fx*.08*s,ey+.06*s,lz+rz*.06*s+fz*.08*s],size:[.08*s,.08*s,.03*s],color:[1,1,1],emis:[.9,.9,1],rot:[0,yaw,0]});
-  });
-  P({pos:[cgx,ey,cgz],size:[.26*s,.08*s,.08*s],color:[.05,.08,.14],rot:[0,yaw,0]});
-  if(mood){
-    const mo=.68*s,my=y-.27*s;
-    for(let i=-2;i<=2;i++){
-      const u=i*.10*s, v=(mood>0?1:-1)*Math.abs(i)*.055*s;
-      P({pos:[x+rx*u+fx*mo,my+v,z+rz*u+fz*mo],size:[.085*s,.085*s,.05*s],color:[.05,.08,.14],rot:[0,yaw,0]});
-    }
-  }
+  s=s||1;
+  P({pos:[x,y,z],size:[2.05*s,2.05*s,.005],tex:NEOAV_TEX,color:[1,1,1],unlit:true});
 }
 function neoAvatar(x,y,z,s){
   s=s||1;
