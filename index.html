@@ -556,6 +556,21 @@ function neoBall(x,y,z,s,yaw,mood){
     }
   }
 }
+function neoAvatar(x,y,z,s){
+  s=s||1;
+  const nav=[.05,.16,.21],nave=[.02,.06,.08],wht=[.96,.98,1.0],whe=[.4,.44,.5],drk=[.03,.07,.10];
+  P({pos:[x,y,z],size:[2.0*s,2.15*s,1.25*s],color:nav,emis:nave});
+  P({pos:[x,y,z+.4*s],size:[1.84*s,1.98*s,.55*s],color:nav,emis:nave});
+  P({pos:[x-.22*s,y+.98*s,z+.5*s],size:[1.5*s,.5*s,.5*s],color:wht,emis:whe,rot:[0,0,.12]});
+  P({pos:[x+.62*s,y+.8*s,z+.5*s],size:[.5*s,.72*s,.42*s],color:wht,emis:whe,rot:[0,0,-.42]});
+  [-.5,.5].forEach(dx=>{
+    P({pos:[x+dx*s,y+.05*s,z+.68*s],size:[.82*s,.82*s,.2*s],color:wht,emis:whe});
+    P({pos:[x+dx*s,y+.05*s,z+.8*s],size:[.52*s,.52*s,.12*s],color:drk,emis:[.01,.02,.03]});
+    P({pos:[x+dx*s+.06*s,y-.02*s,z+.88*s],size:[.2*s,.26*s,.07*s],color:[.55,.85,1],emis:[.3,.55,.7],mesh:SPH});
+  });
+  P({pos:[x,y+.07*s,z+.72*s],size:[.44*s,.18*s,.2*s],color:wht,emis:whe});
+  P({pos:[x,y-.8*s,z+.55*s],size:[.82*s,.3*s,.35*s],color:wht,emis:whe});
+}
 /* panel/pantalla flotante con textura (lo que Neo ve o dice) */
 function panel3d(cx,cy,cz,w,h,tex,glow){
   P({pos:[cx,cy,cz-.02],size:[w+.16,h+.16,.08],color:glow?[.24,.72,.86]:[.13,.17,.26],emis:glow?[.10,.4,.5]:[.01,.02,.03]});
@@ -1307,9 +1322,7 @@ const VIG=[
     houseIso(-0.8,-0.8);
     bovedaIso(5.1,2.7);
     const yb=1.5+Math.sin(t*1.6)*.06;
-    P({pos:[1.7,yb,2.9],size:[2.7,2.7,.02],tex:GLOW_TEX,color:[1,1,1],emis:[.32,.42,.66],unlit:true});
-    P({pos:[1.7,yb,3.38],size:[1.7,1.85,.9],color:[.05,.16,.21],emis:[.02,.06,.08],mesh:SPH});
-    P({pos:[1.7,yb,3.9],size:[1.9,1.9,.04],tex:NEOAV_TEX,color:[1,1,1],unlit:true}); } },
+    neoAvatar(1.7,yb,3.4,0.92); } },
 
 { sec:"Respaldos", kind:"scene", src:"tecnetsoc-escenas.html", kick:"Escena 1", ttl:"La noche del cifrado",
   points:[], notes:`<p><b>(Escena)</b> Deja que la escena cuente la historia. Contrólala con las flechas; cuando termine, pulsa <b>Continuar ▶</b>.</p>`,
